@@ -13,6 +13,7 @@
     "no-underscore-dangle": "off",
     "no-restricted-globals": "off"
   },
+  // had to add the following for the js code to not have errors in them. 
   "parserOptions": {
     "sourceType": "module"
   },
