@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start:dev": "concurrently \"cd client && npm run build\" \"cd server && npm run server\" ",
-    "start": "webpack --watchAll",
+    "start": "npm run build && cd server and node server.js",
     "server": "cd server node server.sj --ignore client",
     "build": "cd client && npm run build",
     "install": "cd server && npm i && cd ../client && npm i",

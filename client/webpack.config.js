@@ -25,7 +25,25 @@ module.exports = () => {
         title: 'J.A.T.E.',
       }),
       new MiniCssExtractPlugin(),
-      new WorkboxPlugin.GenerateSW()
+      new InjectManifest(),
+      new WebpackPwaManifest({
+        name: 'J.A.T.E.',
+        short_name: 'J.A.T.E',
+        background_color: '#ffffff',
+        icons: [
+          {
+            src: './src/images/logo.png',
+            type: 'image/png',
+            sizes: [96, 128, 192, 256, 384,512],
+            purpose: 'any maskable'
+          }  
+        ],
+        orientation: 'portrait',
+        display: 'standalone',
+        description: 'Just Another Text Editor', 
+        background_color: '#7eb4e2',
+        theme_color: '#7eb4e2', 
+      })
     ],
 
     //added css loaders and babel
@@ -33,19 +51,16 @@ module.exports = () => {
       rules: [
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
-        },
-        {
-          test: /\.(png|svg|jpg|jpeg|gif)$/i,
-          type: 'asset/resource',
+          use: ['style-loader', 'css-loader'],
         },
         {
           test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
+          exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
             },
           },
         },

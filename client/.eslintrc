@@ -1,6 +1,7 @@
 {
   "env": {
     "browser": true,
+    // added es6 since it was causing issues with the term 'const'.
     "es6": true
   },
   "rules": {
