@@ -6,15 +6,15 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 // TODO: Add and configure workbox plugins for a service worker and manifest file.
 // TODO: Add CSS loaders and babel to webpack.
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
-
-
 module.exports = () => {
   return {
     mode: 'development',
     //removing install since it is conflicting with the bundle
-    entry: './src/js/index.js',
+    entry: {
+      main: './src/js/index.js',
+      install: './src/js/install.js',
+      editor: './src/js/editor.js',
+    },
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
@@ -24,25 +24,31 @@ module.exports = () => {
         template: './index.html',
         title: 'J.A.T.E.',
       }),
-      new MiniCssExtractPlugin(),
-      new InjectManifest(),
+
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'service-worker.js'
+      }),
+
       new WebpackPwaManifest({
         name: 'J.A.T.E.',
-        short_name: 'J.A.T.E',
-        background_color: '#ffffff',
+        short_name: 'J.A.T.E.',
+        description: 'Just Another Text Editor', 
+        theme_color: '#7eb4e2', 
+        start_url: './',
+        publicPath: './',
         icons: [
           {
-            src: './src/images/logo.png',
-            type: 'image/png',
-            sizes: [96, 128, 192, 256, 384,512],
-            purpose: 'any maskable'
+            src: 'src/images/logo.png',
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join('assests', 'icons')
           }  
         ],
-        orientation: 'portrait',
-        display: 'standalone',
-        description: 'Just Another Text Editor', 
-        background_color: '#7eb4e2',
-        theme_color: '#7eb4e2', 
+        // checking to see if this is needed. 
+        // background_color: '#ffffff',
+        // background_color: '#7eb4e2',
+        // orientation: 'portrait',
+        // display: 'standalone',
       })
     ],
 
